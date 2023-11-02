@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://clc4ialyexmv1"]
+
+[ext_resource type="Texture2D" uid="uid://0o3lvqje0ugg" path="res://icon.svg" id="1_eilla"]
+[ext_resource type="PackedScene" uid="uid://cifyrvq8d274l" path="res://scenes/state_machine.tscn" id="2_pwd5h"]
+[ext_resource type="Script" path="res://scripts/player/PlayerWalk.gd" id="3_akysf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_web51"]
+size = Vector2(126, 126)
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_eilla")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_web51")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="state machine" parent="." instance=ExtResource("2_pwd5h")]
+
+[node name="PlayerWalk" type="Node" parent="state machine"]
+script = ExtResource("3_akysf")
