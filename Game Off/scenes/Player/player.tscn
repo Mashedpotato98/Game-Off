@@ -17,7 +17,10 @@ shape = SubResource("RectangleShape2D_web51")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
-[node name="state machine" parent="." instance=ExtResource("2_pwd5h")]
+[node name="state machine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("2_pwd5h")]
+initial_state = NodePath("PlayerWalk")
 
-[node name="PlayerWalk" type="Node" parent="state machine"]
+[node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player", "anim")]
 script = ExtResource("3_akysf")
+player = NodePath("../..")
+anim = NodePath("../../AnimationPlayer")
