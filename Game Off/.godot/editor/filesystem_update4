@@ -1,1 +1,5 @@
 res://scenes/Player/player.tscn
+res://scenes/state_machine.tscn
+res://scripts/state_machine.gd
+res://scripts/player/PlayerWalk.gd
+res://scripts/player/SpringArm3D.gd

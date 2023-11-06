@@ -1,26 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://clc4ialyexmv1"]
+[gd_scene load_steps=6 format=3 uid="uid://dpdqux46x4prt"]
 
-[ext_resource type="Texture2D" uid="uid://0o3lvqje0ugg" path="res://icon.svg" id="1_eilla"]
+[ext_resource type="Script" path="res://scenes/Player/player.gd" id="1_id12w"]
 [ext_resource type="PackedScene" uid="uid://cifyrvq8d274l" path="res://scenes/state_machine.tscn" id="2_pwd5h"]
 [ext_resource type="Script" path="res://scripts/player/PlayerWalk.gd" id="3_akysf"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_web51"]
-size = Vector2(126, 126)
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6eu8c"]
+radius = 36.5165
+height = 86.293
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fj184"]
+radius = 43.053
+height = 95.51
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_eilla")
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_id12w")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_web51")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_6eu8c")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_fj184")
 
-[node name="state machine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("2_pwd5h")]
-initial_state = NodePath("PlayerWalk")
+[node name="state machine" parent="." instance=ExtResource("2_pwd5h")]
 
-[node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player", "anim")]
+[node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player", "spring_arm")]
 script = ExtResource("3_akysf")
 player = NodePath("../..")
-anim = NodePath("../../AnimationPlayer")
+spring_arm = NodePath("")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
