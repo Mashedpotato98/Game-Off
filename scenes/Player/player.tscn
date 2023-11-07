@@ -1,32 +1,45 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpdqux46x4prt"]
+[gd_scene load_steps=7 format=3 uid="uid://dpdqux46x4prt"]
 
 [ext_resource type="Script" path="res://scenes/Player/player.gd" id="1_id12w"]
 [ext_resource type="PackedScene" uid="uid://cifyrvq8d274l" path="res://scenes/state_machine.tscn" id="2_pwd5h"]
 [ext_resource type="Script" path="res://scripts/player/PlayerWalk.gd" id="3_akysf"]
+[ext_resource type="PackedScene" uid="uid://dijfjby23axuh" path="res://assets/player_arms.glb" id="4_10d5h"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6eu8c"]
-radius = 36.5165
-height = 86.293
+lightmap_size_hint = Vector2i(484, 243)
+radius = 20.0
+height = 100.0
+radial_segments = 65
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fj184"]
-radius = 43.053
-height = 95.51
+radius = 20.0
+height = 100.0
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_id12w")
+metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+cast_shadow = 0
 mesh = SubResource("CapsuleMesh_6eu8c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_fj184")
 
-[node name="state machine" parent="." instance=ExtResource("2_pwd5h")]
+[node name="state machine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("2_pwd5h")]
+initial_state = NodePath("PlayerWalk")
 
-[node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player", "spring_arm")]
+[node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player")]
 script = ExtResource("3_akysf")
 player = NodePath("../..")
-spring_arm = NodePath("")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Twist_pivot" type="Node3D" parent="."]
+
+[node name="Pitch_pivot" type="Node3D" parent="Twist_pivot"]
+
+[node name="Camera3D" type="Camera3D" parent="Twist_pivot/Pitch_pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 69, 101.378)
 current = true
+
+[node name="player_arms" parent="." instance=ExtResource("4_10d5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 28, 0)

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmw0qhv5webqh"]
+
+[ext_resource type="PackedScene" uid="uid://dijfjby23axuh" path="res://assets/player_arms.glb" id="1_xtkqa"]
+
+[node name="Player_arms" type="Node3D"]
+
+[node name="player_arms" parent="." instance=ExtResource("1_xtkqa")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
