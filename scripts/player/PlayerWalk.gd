@@ -2,9 +2,7 @@ extends state_machine
 class_name PlayerWalk
 
 @export var player:CharacterBody3D
-@export var spring_arm:SpringArm3D
  
-
 var speed:int = 300
 var jump:int = 5
 var gravity:int = 40
@@ -28,4 +26,3 @@ func update(_delta:float):
 
 	player.move_and_slide()
 	
-	spring_arm.position = player.position
