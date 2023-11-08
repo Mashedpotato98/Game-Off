@@ -4,3 +4,4 @@
 *.cfg
 *.md5
 *.ctex
+.godot/editor/filesystem_update4

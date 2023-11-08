@@ -1,5 +1,10 @@
 res://scenes/Player/player.tscn
-res://scripts/player/PlayerWalk.gd
-res://scenes/test_level.tscn
 res://scenes/Player/player.gd
+res://scenes/test_level.tscn
 res://scenes/Player/player_arms.tscn
+res://scripts/player/PlayerWalk.gd
+res://PlayerCrouch.gd
+res://PlayerSprint.gd
+res://scripts/player/PlayerSprint.gd
+res://scripts/player/PlayerCrouch.gd
+res://scripts/player/player.gd
