@@ -4,8 +4,5 @@
 *.cfg
 *.md5
 *.ctex
-.godot/editor/filesystem_update4
+.godot/
 *.Node
-.godot/editor/filesystem_cache8
-.godot/editor/filesystem_update4
-.godot/editor/create_recent.Node
