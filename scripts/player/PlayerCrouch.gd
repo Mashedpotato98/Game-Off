@@ -4,11 +4,13 @@ class_name PlayerCrouch
 @export var player:CharacterBody3D
 @export var head:Node3D
 @export var ray:RayCast3D
+@export var hand_anim:AnimationPlayer
 
 var crouch_speed:int = 150
 var lerp_speed:int = 50
 var gravity:int = 40
-
+ 
+var default_depth = 4.8
 var crouch_depth = 0.3
 var crouch_lerp = 0.1
 
@@ -22,8 +24,8 @@ func Enter():
 	standing_collision.disabled = true
 	ray.enabled = true
 
-func update(_delta:float):
-	head.position.y = lerp(head.position.y,4.8-crouch_depth,crouch_lerp)
+func Physics_update(_delta:float):
+	head.position.y = lerp(head.position.y,default_depth-crouch_depth,crouch_lerp)
 	if not player.is_on_floor():
 		player.velocity.y -= gravity
 
@@ -40,7 +42,7 @@ func update(_delta:float):
 	player.move_and_slide()
 
 	if not Input.is_action_pressed("Crouch") and ray.is_colliding() == false:
-		head.position.y = lerp(head.position.y,4.8,crouch_lerp)
+		head.position.y = lerp(head.position.y,default_depth,crouch_lerp)
 		crouch_collision.disabled = true
 		standing_collision.disabled = false
 		ray.enabled = false
@@ -48,7 +50,7 @@ func update(_delta:float):
 		Transitioned.emit(self,"PlayerWalk")
 
 	if Input.is_action_just_pressed("Sprint") and ray.is_colliding() == false:
-		head.position.y = lerp(head.position.y,4.8,crouch_lerp)
+		head.position.y = lerp(head.position.y,default_depth,crouch_lerp)
 		crouch_collision.disabled = true
 		standing_collision.disabled = false
 		ray.enabled = false

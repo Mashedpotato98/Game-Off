@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqfrj4wx2kdbw"]
+
+[ext_resource type="Texture2D" uid="uid://butkp8obcxx2r" path="res://assets/camera_scope_mask.svg" id="1_s05ua"]
+
+[node name="zoom_in_mask" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(580, 328.5)
+scale = Vector2(1.005, 1.005)
+texture = ExtResource("1_s05ua")

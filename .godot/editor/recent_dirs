@@ -1,4 +1,6 @@
-res://scripts/player
+res://scripts/enemy/enemy_1
+res://scenes/enemy
 res://scenes/Player
 res://scenes
+res://scripts/player
 res://scripts

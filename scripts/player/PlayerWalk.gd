@@ -2,15 +2,16 @@ extends state_machine
 class_name PlayerWalk
 
 @export var player:CharacterBody3D
- 
+@export var hand_anim:AnimationPlayer
+
 var speed:int = 300
-var lerp_speed:int = 50
+var lerp_speed:int = 150
 var jump:int = 5
 var gravity:int = 40
 
 var direction = Vector3.ZERO
 
-func update(_delta:float):
+func Physics_update(_delta:float): 
 	if not player.is_on_floor():
 		player.velocity.y -= gravity
 
@@ -24,7 +25,9 @@ func update(_delta:float):
 	if direction:
 		player.velocity.x = direction.x * speed
 		player.velocity.z = direction.z * speed
+		hand_anim.play("Walk")
 	else:
+		hand_anim.play("Idle")
 		player.velocity.x = move_toward(player.velocity.x, 0, speed)
 		player.velocity.z = move_toward(player.velocity.z, 0, speed)
 

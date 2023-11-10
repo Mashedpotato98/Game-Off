@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://dpdqux46x4prt"]
+[gd_scene load_steps=10 format=3 uid="uid://dpdqux46x4prt"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_ml8nt"]
 [ext_resource type="PackedScene" uid="uid://cifyrvq8d274l" path="res://scenes/state_machine.tscn" id="2_pwd5h"]
 [ext_resource type="Script" path="res://scripts/player/PlayerCrouch.gd" id="3_8kuua"]
 [ext_resource type="Script" path="res://scripts/player/PlayerWalk.gd" id="3_akysf"]
 [ext_resource type="Script" path="res://scripts/player/PlayerSprint.gd" id="4_1hpus"]
-[ext_resource type="PackedScene" uid="uid://dijfjby23axuh" path="res://assets/player_arms.glb" id="4_10d5h"]
+[ext_resource type="PackedScene" uid="uid://bmw0qhv5webqh" path="res://scenes/Player/player_arms.tscn" id="6_hm6wc"]
+[ext_resource type="PackedScene" uid="uid://cqfrj4wx2kdbw" path="res://scenes/zoom_in_mask.tscn" id="8_hrjhj"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6eu8c"]
 lightmap_size_hint = Vector2i(484, 243)
@@ -22,7 +23,6 @@ script = ExtResource("1_ml8nt")
 metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_6eu8c")
 
@@ -36,20 +36,24 @@ disabled = true
 [node name="state machine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("2_pwd5h")]
 initial_state = NodePath("PlayerWalk")
 
-[node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player")]
+[node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player", "hand_anim")]
 script = ExtResource("3_akysf")
 player = NodePath("../..")
+hand_anim = NodePath("../../player_arms/AnimationPlayer")
 
-[node name="PlayerCrouch" type="Node" parent="state machine" node_paths=PackedStringArray("player", "head", "crouch_collision", "standing_collision")]
+[node name="PlayerCrouch" type="Node" parent="state machine" node_paths=PackedStringArray("player", "head", "ray", "hand_anim", "crouch_collision", "standing_collision")]
 script = ExtResource("3_8kuua")
 player = NodePath("../..")
 head = NodePath("../../Head")
+ray = NodePath("../../roof_checker")
+hand_anim = NodePath("../../player_arms/AnimationPlayer")
 crouch_collision = NodePath("../../Crouch_collision")
 standing_collision = NodePath("../../Standing_collision")
 
-[node name="PlayerSprint" type="Node" parent="state machine" node_paths=PackedStringArray("player")]
+[node name="PlayerSprint" type="Node" parent="state machine" node_paths=PackedStringArray("player", "hand_anim")]
 script = ExtResource("4_1hpus")
 player = NodePath("../..")
+hand_anim = NodePath("../../player_arms/AnimationPlayer")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0.1, 4.8, -0.9)
@@ -59,11 +63,32 @@ metadata/_edit_group_ = true
 current = true
 fov = 90.0
 
-[node name="player_arms" parent="." instance=ExtResource("4_10d5h")]
+[node name="player_arms" parent="." instance=ExtResource("6_hm6wc")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 4, -1.2)
+
+[node name="Skeleton3D" parent="player_arms/Armature" index="0"]
+bones/0/rotation = Quaternion(0.865201, 0.0308434, -0.0308438, 0.499524)
+bones/1/rotation = Quaternion(-0.257834, 1.16143e-07, 0.0871559, 0.96225)
+bones/2/rotation = Quaternion(-7.27596e-11, -4.22006e-10, 2.47292e-09, 1)
+bones/3/rotation = Quaternion(-4.06762e-10, -3.41228e-09, 0.258819, 0.965926)
+bones/4/rotation = Quaternion(-0.330014, 0.0256145, 0.0730217, 0.940799)
+bones/5/rotation = Quaternion(-0.0745322, 0.150233, 0.294424, 0.940845)
+bones/6/rotation = Quaternion(0.865201, -0.0308438, 0.0308432, 0.499524)
+bones/7/rotation = Quaternion(-0.257834, 2.29383e-07, -0.0871556, 0.96225)
+bones/8/rotation = Quaternion(-6.46881e-24, 2.85596e-10, -4.55202e-10, 1)
+bones/9/rotation = Quaternion(-4.06762e-09, -6.36507e-10, -0.258819, 0.965926)
+bones/10/rotation = Quaternion(-0.330014, -0.0256146, -0.0730212, 0.940799)
+bones/11/rotation = Quaternion(-0.0745325, -0.150233, -0.294424, 0.940845)
 
 [node name="roof_checker" type="RayCast3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 5.43632, 0)
 enabled = false
 collide_with_areas = true
 collide_with_bodies = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="zoom_in_mask" parent="CanvasLayer" instance=ExtResource("8_hrjhj")]
+visible = false
+
+[editable path="player_arms"]

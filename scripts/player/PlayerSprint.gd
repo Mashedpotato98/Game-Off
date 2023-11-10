@@ -2,7 +2,8 @@ extends state_machine
 class_name PlayerSprint
 
 @export var player:CharacterBody3D
- 
+@export var hand_anim:AnimationPlayer
+
 var sprint_speed:int = 360
 var lerp_speed:int = 60
 var jump:int = 5
@@ -10,7 +11,7 @@ var gravity:int = 40
 
 var direction = Vector3.ZERO
 
-func update(_delta:float):
+func Physics_update(_delta:float):
 	if not player.is_on_floor():
 		player.velocity.y -= gravity
 
@@ -23,6 +24,7 @@ func update(_delta:float):
 	if direction:
 		player.velocity.x = direction.x * sprint_speed
 		player.velocity.z = direction.z * sprint_speed
+		hand_anim.play("Run")
 	else:
 		player.velocity.x = move_toward(player.velocity.x, 0, sprint_speed)
 		player.velocity.z = move_toward(player.velocity.z, 0, sprint_speed)

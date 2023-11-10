@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bb3qjdfidsndm"]
+
+[ext_resource type="PackedScene" uid="uid://cifyrvq8d274l" path="res://scenes/state_machine.tscn" id="1_5q2yf"]
+[ext_resource type="Script" path="res://scripts/enemy/enemy_1/Enemy1_spotted.gd" id="2_7dlv7"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x6a6b"]
+radius = 2.0
+height = 5.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hu0t6"]
+radius = 2.0
+height = 5.0
+
+[node name="Enemy_1" type="CharacterBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_x6a6b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_hu0t6")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = 0.15
+
+[node name="state machine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("1_5q2yf")]
+initial_state = NodePath("Enemy1_Walk")
+
+[node name="Enemy1_Walk" type="Node" parent="state machine" node_paths=PackedStringArray("nav_agent", "enemy")]
+script = ExtResource("2_7dlv7")
+nav_agent = NodePath("../../NavigationAgent3D")
+enemy = NodePath("../..")

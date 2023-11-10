@@ -1,10 +1,10 @@
 res://scenes/Player/player.tscn
-res://scenes/Player/player.gd
 res://scenes/test_level.tscn
-res://scenes/Player/player_arms.tscn
+res://scenes/zoom_in_mask.tscn
+res://scripts/player/player.gd
 res://scripts/player/PlayerWalk.gd
-res://PlayerCrouch.gd
-res://PlayerSprint.gd
 res://scripts/player/PlayerSprint.gd
 res://scripts/player/PlayerCrouch.gd
-res://scripts/player/player.gd
+res://scenes/enemy/enemy_template.tscn
+res://scenes/enemy/enemy_1.tscn
+res://scripts/enemy/enemy_1/Enemy1_spotted.gd

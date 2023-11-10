@@ -2,7 +2,18 @@
 
 [ext_resource type="PackedScene" uid="uid://dijfjby23axuh" path="res://assets/player_arms.glb" id="1_xtkqa"]
 
-[node name="Player_arms" type="Node3D"]
+[node name="player_arms" instance=ExtResource("1_xtkqa")]
 
-[node name="player_arms" parent="." instance=ExtResource("1_xtkqa")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/rotation = Quaternion(0.865201, 0.0308434, -0.0308438, 0.499524)
+bones/1/rotation = Quaternion(-0.257834, 1.16143e-07, 0.0871559, 0.96225)
+bones/2/rotation = Quaternion(-7.27596e-11, -4.22006e-10, 2.47292e-09, 1)
+bones/3/rotation = Quaternion(-4.06762e-10, -3.41228e-09, 0.258819, 0.965926)
+bones/4/rotation = Quaternion(-0.330014, 0.0256145, 0.0730217, 0.940799)
+bones/5/rotation = Quaternion(-0.0745322, 0.150233, 0.294424, 0.940845)
+bones/6/rotation = Quaternion(0.865201, -0.0308438, 0.0308432, 0.499524)
+bones/7/rotation = Quaternion(-0.257834, 2.29383e-07, -0.0871556, 0.96225)
+bones/8/rotation = Quaternion(-6.46881e-24, 2.85596e-10, -4.55202e-10, 1)
+bones/9/rotation = Quaternion(-4.06762e-09, -6.36507e-10, -0.258819, 0.965926)
+bones/10/rotation = Quaternion(-0.330014, -0.0256146, -0.0730212, 0.940799)
+bones/11/rotation = Quaternion(-0.0745325, -0.150233, -0.294424, 0.940845)

@@ -1,11 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://d3j26esvtcdyi"]
+[gd_scene load_steps=8 format=3 uid="uid://d3j26esvtcdyi"]
 
 [ext_resource type="PackedScene" uid="uid://dpdqux46x4prt" path="res://scenes/Player/player.tscn" id="1_tij4w"]
+[ext_resource type="PackedScene" uid="uid://bb3qjdfidsndm" path="res://scenes/enemy/enemy_1.tscn" id="2_ib68t"]
 
 [sub_resource type="Environment" id="Environment_r0w3y"]
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 reflected_light_source = 1
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_u70b8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vltas"]
 albedo_color = Color(0.286275, 0.133333, 0.0823529, 1)
@@ -24,13 +27,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.31429, 31.2332, -12.343)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_r0w3y")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_u70b8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -17, 0)
 material_override = SubResource("StandardMaterial3D_vltas")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_q3p8o")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_sbak0")
+
+[node name="Enemy_1" parent="." instance=ExtResource("2_ib68t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
