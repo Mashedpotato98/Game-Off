@@ -1,35 +1,83 @@
-[gd_scene load_steps=10 format=3 uid="uid://dpdqux46x4prt"]
+[gd_scene load_steps=15 format=3 uid="uid://dpdqux46x4prt"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_ml8nt"]
 [ext_resource type="PackedScene" uid="uid://cifyrvq8d274l" path="res://scenes/state_machine.tscn" id="2_pwd5h"]
 [ext_resource type="Script" path="res://scripts/player/PlayerCrouch.gd" id="3_8kuua"]
 [ext_resource type="Script" path="res://scripts/player/PlayerWalk.gd" id="3_akysf"]
 [ext_resource type="Script" path="res://scripts/player/PlayerSprint.gd" id="4_1hpus"]
-[ext_resource type="PackedScene" uid="uid://bmw0qhv5webqh" path="res://scenes/Player/player_arms.tscn" id="6_hm6wc"]
+[ext_resource type="PackedScene" uid="uid://bjjpbxmqypqw7" path="res://assets/player_arms_textured/player_arms_textured.glb" id="6_tffg4"]
 [ext_resource type="PackedScene" uid="uid://cqfrj4wx2kdbw" path="res://scenes/zoom_in_mask.tscn" id="8_hrjhj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5cv2o"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0.25098)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6eu8c"]
 lightmap_size_hint = Vector2i(484, 243)
-radius = 1.0
-height = 10.0
-radial_segments = 65
+material = SubResource("StandardMaterial3D_5cv2o")
+radial_segments = 16
+rings = 4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a02o8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fj184"]
-radius = 1.0
-height = 9.0
+height = 1.5
+
+[sub_resource type="Animation" id="Animation_smf7y"]
+resource_name = "Flash"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ui/CameraFlash:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1e-05, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_p02a7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ui/CameraFlash:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_45oof"]
+_data = {
+"Flash": SubResource("Animation_smf7y"),
+"RESET": SubResource("Animation_p02a7")
+}
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_ml8nt")
 metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_6eu8c")
 
 [node name="Standing_collision" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_fj184")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_a02o8")
 
 [node name="Crouch_collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("CapsuleShape3D_fj184")
 disabled = true
 
@@ -39,56 +87,88 @@ initial_state = NodePath("PlayerWalk")
 [node name="PlayerWalk" type="Node" parent="state machine" node_paths=PackedStringArray("player", "hand_anim")]
 script = ExtResource("3_akysf")
 player = NodePath("../..")
-hand_anim = NodePath("../../player_arms/AnimationPlayer")
+hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
+move_anim_name = "Walk"
 
-[node name="PlayerCrouch" type="Node" parent="state machine" node_paths=PackedStringArray("player", "head", "ray", "hand_anim", "crouch_collision", "standing_collision")]
+[node name="PlayerCrouch" type="Node" parent="state machine" node_paths=PackedStringArray("head", "ray", "crouch_collision", "standing_collision", "player", "hand_anim")]
 script = ExtResource("3_8kuua")
-player = NodePath("../..")
 head = NodePath("../../Head")
 ray = NodePath("../../roof_checker")
-hand_anim = NodePath("../../player_arms/AnimationPlayer")
 crouch_collision = NodePath("../../Crouch_collision")
 standing_collision = NodePath("../../Standing_collision")
+player = NodePath("../..")
+hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
+move_anim_name = "Walk"
+speed = 1.0
 
 [node name="PlayerSprint" type="Node" parent="state machine" node_paths=PackedStringArray("player", "hand_anim")]
 script = ExtResource("4_1hpus")
 player = NodePath("../..")
-hand_anim = NodePath("../../player_arms/AnimationPlayer")
+hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
+move_anim_name = "Run"
+speed = 4
+jump = 8
 
 [node name="Head" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0.1, 4.8, -0.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 metadata/_edit_group_ = true
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 current = true
 fov = 90.0
 
-[node name="player_arms" parent="." instance=ExtResource("6_hm6wc")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 4, -1.2)
+[node name="player_arms" parent="Head" instance=ExtResource("6_tffg4")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.2, 0)
 
-[node name="Skeleton3D" parent="player_arms/Armature" index="0"]
-bones/0/rotation = Quaternion(0.865201, 0.0308434, -0.0308438, 0.499524)
-bones/1/rotation = Quaternion(-0.257834, 1.16143e-07, 0.0871559, 0.96225)
-bones/2/rotation = Quaternion(-7.27596e-11, -4.22006e-10, 2.47292e-09, 1)
-bones/3/rotation = Quaternion(-4.06762e-10, -3.41228e-09, 0.258819, 0.965926)
-bones/4/rotation = Quaternion(-0.330014, 0.0256145, 0.0730217, 0.940799)
-bones/5/rotation = Quaternion(-0.0745322, 0.150233, 0.294424, 0.940845)
-bones/6/rotation = Quaternion(0.865201, -0.0308438, 0.0308432, 0.499524)
-bones/7/rotation = Quaternion(-0.257834, 2.29383e-07, -0.0871556, 0.96225)
-bones/8/rotation = Quaternion(-6.46881e-24, 2.85596e-10, -4.55202e-10, 1)
-bones/9/rotation = Quaternion(-4.06762e-09, -6.36507e-10, -0.258819, 0.965926)
-bones/10/rotation = Quaternion(-0.330014, -0.0256146, -0.0730212, 0.940799)
+[node name="Skeleton3D" parent="Head/player_arms/Armature" index="0"]
+bones/0/rotation = Quaternion(-0.971966, -0.0436018, 0.00124009, 0.23104)
+bones/1/rotation = Quaternion(-0.557422, 0.0831385, 0.0862993, 0.821536)
+bones/2/rotation = Quaternion(0.00448289, 0.0589106, 0.0419459, 0.997372)
+bones/3/rotation = Quaternion(-1.1065e-08, -3.01772e-09, 0.377884, 0.925853)
+bones/4/rotation = Quaternion(-0.326024, 0.0339203, 0.0695557, 0.942189)
+bones/5/rotation = Quaternion(-0.0551079, 0.158392, 0.410063, 0.896506)
+bones/6/rotation = Quaternion(-0.971966, 0.0436017, -0.00123936, 0.23104)
+bones/7/rotation = Quaternion(-0.525569, -0.0219097, -0.113917, 0.842805)
+bones/8/rotation = Quaternion(-0.0137528, 0.0192365, -0.088345, 0.995809)
+bones/9/rotation = Quaternion(-3.16752e-08, -6.92896e-09, -0.338763, 0.940872)
+bones/10/rotation = Quaternion(-0.347767, 0.00812855, -0.139669, 0.927084)
 bones/11/rotation = Quaternion(-0.0745325, -0.150233, -0.294424, 0.940845)
 
+[node name="Camera" parent="Head/player_arms/Armature/Skeleton3D" index="1"]
+visible = false
+
 [node name="roof_checker" type="RayCast3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 5.43632, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 enabled = false
+target_position = Vector3(0, 0.5, 0)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="ui" type="CanvasLayer" parent="."]
 
-[node name="zoom_in_mask" parent="CanvasLayer" instance=ExtResource("8_hrjhj")]
-visible = false
+[node name="zoom_in_mask" parent="ui" instance=ExtResource("8_hrjhj")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[editable path="player_arms"]
+[node name="CameraFlash" type="ColorRect" parent="ui"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ui"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_45oof")
+}
+
+[connection signal="animation_finished" from="Head/player_arms/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+
+[editable path="Head/player_arms"]

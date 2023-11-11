@@ -1,7 +1,7 @@
 extends Node
 class_name  state_machine
 
-signal Transitioned
+signal Transitioned(state,new_state_name)
 
 func Enter():
 	pass

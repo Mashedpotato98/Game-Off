@@ -1,6 +1,11 @@
+res://assets/
+res://assets/fonts
+res://assets/fonts/Noto_Serif/
+res://scripts/ui
+res://scenes/ui
+res://scripts/player
 res://scripts/enemy/enemy_1
 res://scenes/enemy
 res://scenes/Player
 res://scenes
-res://scripts/player
 res://scripts

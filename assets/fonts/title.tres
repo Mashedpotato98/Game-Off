@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://c8l8tseuacwcj"]
+
+[ext_resource type="FontFile" uid="uid://c1xg0rm7sy1rd" path="res://assets/fonts/Noto_Serif/static/NotoSerif-Black.ttf" id="1_7s8jj"]
+
+[resource]
+font = ExtResource("1_7s8jj")
+font_size = 32

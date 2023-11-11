@@ -1,3 +1,14 @@
+TextureRect
+Button
+AnimationPlayer
+VBoxContainer
+HBoxContainer
+Control
+Label
+ColorRect
+CanvasLayer
+ScrollContainer
+Marker3D
 Enemy1_Walk
 NavigationRegion3D
 NavigationAgent3D
@@ -5,11 +16,8 @@ MeshInstance3D
 CollisionShape3D
 CharacterBody3D
 Sprite2D
-Control
-CanvasLayer
 Sprite3D
 RayCast3D
-AnimationPlayer
 PlayerSprint
 PlayerCrouch
 Camera3D

@@ -1,58 +1,41 @@
-extends state_machine
+extends PlayerMovement
 class_name PlayerCrouch
 
-@export var player:CharacterBody3D
+
 @export var head:Node3D
 @export var ray:RayCast3D
-@export var hand_anim:AnimationPlayer
 
-var crouch_speed:int = 150
-var lerp_speed:int = 50
-var gravity:int = 40
- 
-var default_depth = 4.8
-var crouch_depth = 0.3
-var crouch_lerp = 0.1
+@onready var default_depth = head.position.y
+var crouch_depth = 0.5
+var crouch_lerp = 10.0
 
 @export var crouch_collision:CollisionShape3D
 @export var standing_collision:CollisionShape3D
 
-var direction = Vector3.ZERO
-
 func Enter():
-	crouch_collision.disabled = false
-	standing_collision.disabled = true
+	# Use set_defered() to make it physics safe
+	crouch_collision.set_deferred("disabled",false)
+	standing_collision.set_deferred("disabled",true)
 	ray.enabled = true
 
-func Physics_update(_delta:float):
-	head.position.y = lerp(head.position.y,default_depth-crouch_depth,crouch_lerp)
-	if not player.is_on_floor():
-		player.velocity.y -= gravity
+func update(delta:float):
+	head.position.y = lerp(head.position.y,default_depth-crouch_depth,crouch_lerp*delta)
+	handle_transitions()
 
-	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	direction = lerp(direction,(player.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized(),_delta*lerp_speed)
-	
-	if direction:
-		player.velocity.x = direction.x * crouch_speed
-		player.velocity.z = direction.z * crouch_speed
-	else:
-		player.velocity.x = move_toward(player.velocity.x, 0, crouch_speed)
-		player.velocity.z = move_toward(player.velocity.z, 0, crouch_speed)
+func handle_transitions():
+	if ray.is_colliding() == false:
+		if not Input.is_action_pressed("Crouch"):
+			get_up()
+			Transitioned.emit(self,"PlayerWalk")
 
-	player.move_and_slide()
+		if Input.is_action_just_pressed("Sprint"):
+			get_up()
+			Transitioned.emit(self,"PlayerSprint")
 
-	if not Input.is_action_pressed("Crouch") and ray.is_colliding() == false:
-		head.position.y = lerp(head.position.y,default_depth,crouch_lerp)
-		crouch_collision.disabled = true
-		standing_collision.disabled = false
-		ray.enabled = false
+func get_up():
+	var get_up_time:float = 0.1
+	get_tree().create_tween().tween_property(head,"position:y",default_depth,get_up_time)
 
-		Transitioned.emit(self,"PlayerWalk")
-
-	if Input.is_action_just_pressed("Sprint") and ray.is_colliding() == false:
-		head.position.y = lerp(head.position.y,default_depth,crouch_lerp)
-		crouch_collision.disabled = true
-		standing_collision.disabled = false
-		ray.enabled = false
-
-		Transitioned.emit(self,"PlayerSprint")
+	crouch_collision.set_deferred("disabled",true)
+	standing_collision.set_deferred("disabled",false)
+	ray.enabled = false

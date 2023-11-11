@@ -1,0 +1,195 @@
+[gd_scene load_steps=8 format=3 uid="uid://btq8qbwsegmsv"]
+
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1_nive2"]
+[ext_resource type="Theme" uid="uid://jt2akbu2mlev" path="res://assets/theme.theme" id="2_hkgxq"]
+[ext_resource type="LabelSettings" uid="uid://c8l8tseuacwcj" path="res://assets/fonts/title.tres" id="2_qb3dn"]
+
+[sub_resource type="Animation" id="Animation_ufx8d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1lvbd"]
+resource_name = "Hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_m16hu"]
+resource_name = "Show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background/Menu/ResumeButton")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"grab_focus"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_it67b"]
+_data = {
+"Hide": SubResource("Animation_1lvbd"),
+"RESET": SubResource("Animation_ufx8d"),
+"Show": SubResource("Animation_m16hu")
+}
+
+[node name="pause_menu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_nive2")
+
+[node name="Background" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_hkgxq")
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="Background"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 26.0
+grow_horizontal = 2
+text = "Game Paused..."
+label_settings = ExtResource("2_qb3dn")
+horizontal_alignment = 1
+
+[node name="Menu" type="VBoxContainer" parent="Background"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResumeButton" type="Button" parent="Background/Menu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume Game"
+
+[node name="GalleryButton" type="Button" parent="Background/Menu"]
+layout_mode = 2
+text = "Picture Gallary"
+
+[node name="LetterButton" type="Button" parent="Background/Menu"]
+layout_mode = 2
+text = "Letters"
+
+[node name="QuitButton" type="Button" parent="Background/Menu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="BackButton" type="Button" parent="Background"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 45.0
+offset_bottom = 31.0
+text = "Back"
+
+[node name="PictureGallery" type="Control" parent="Background"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/PictureGallery"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical_scroll_mode = 0
+
+[node name="Pictures" type="HBoxContainer" parent="Background/PictureGallery/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Letters" type="Control" parent="Background"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/Letters"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="LettersList" type="VBoxContainer" parent="Background/Letters/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_it67b")
+}
+
+[connection signal="pressed" from="Background/Menu/ResumeButton" to="." method="set_paused" binds= [false]]
+[connection signal="pressed" from="Background/Menu/GalleryButton" to="." method="_on_gallery_button_pressed"]
+[connection signal="pressed" from="Background/Menu/LetterButton" to="." method="_on_letter_button_pressed"]
+[connection signal="pressed" from="Background/Menu/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Background/BackButton" to="." method="_on_back_button_pressed"]

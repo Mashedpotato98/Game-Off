@@ -15,10 +15,10 @@ func Enter():
 
 func Physics_update(_delta:float):
 	enemy.velocity = Vector3.ZERO
-	
+
 	nav_agent.set_target_position(player.global_transform.origin)
 	var next_nav_point = nav_agent.get_next_path_position()
 	enemy.velocity = (next_nav_point - enemy.global_transform.origin).normalized() * spd
-	
+
 	enemy.move_and_slide()
 
