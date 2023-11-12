@@ -1,9 +1,5 @@
-res://scenes/test_level.tscn
 res://scenes/Player/player.tscn
-res://scenes/state_machine.tscn
+res://scenes/test_level.tscn
 res://scenes/zoom_in_mask.tscn
-res://scripts/player/player.gd
-res://scenes/ui/pause_menu.tscn
-res://scripts/ui/pause_menu.gd
-res://assets/fonts/title.tres
-res://assets/theme.theme
+res://scenes/enemy/enemy_1.tscn
+res://scripts/enemy/enemy_1/Enemy1_spotted.gd

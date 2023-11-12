@@ -1,3 +1,6 @@
+CollisionShape3D
+CollisionPolygon3D
+Area3D
 TextureRect
 Button
 AnimationPlayer
@@ -13,7 +16,6 @@ Enemy1_Walk
 NavigationRegion3D
 NavigationAgent3D
 MeshInstance3D
-CollisionShape3D
 CharacterBody3D
 Sprite2D
 Sprite3D

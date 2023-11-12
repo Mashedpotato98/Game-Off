@@ -106,8 +106,6 @@ script = ExtResource("4_1hpus")
 player = NodePath("../..")
 hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
 move_anim_name = "Run"
-speed = 4
-jump = 8
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
