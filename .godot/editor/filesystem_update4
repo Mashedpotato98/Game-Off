@@ -1,5 +1,0 @@
-res://scenes/Player/player.tscn
-res://scenes/test_level.tscn
-res://scenes/zoom_in_mask.tscn
-res://scenes/enemy/enemy_1.tscn
-res://scripts/enemy/enemy_1/Enemy1_spotted.gd

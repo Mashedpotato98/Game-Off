@@ -98,8 +98,10 @@ crouch_collision = NodePath("../../Crouch_collision")
 standing_collision = NodePath("../../Standing_collision")
 player = NodePath("../..")
 hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
-move_anim_name = "Walk"
+move_anim_name = "CrouchWalk"
+idle_anim_name = "CrouchIdle"
 speed = 1.0
+jump = 3.0
 
 [node name="PlayerSprint" type="Node" parent="state machine" node_paths=PackedStringArray("player", "hand_anim")]
 script = ExtResource("4_1hpus")
@@ -113,7 +115,6 @@ metadata/_edit_group_ = true
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 current = true
-fov = 90.0
 
 [node name="player_arms" parent="Head" instance=ExtResource("6_tffg4")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.2, 0)
