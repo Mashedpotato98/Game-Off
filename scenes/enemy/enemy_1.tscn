@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bb3qjdfidsndm"]
+[gd_scene load_steps=7 format=3 uid="uid://bb3qjdfidsndm"]
 
 [ext_resource type="PackedScene" uid="uid://cifyrvq8d274l" path="res://scenes/state_machine.tscn" id="1_5q2yf"]
+[ext_resource type="Script" path="res://scripts/enemy/enemy_1/enemy_1.gd" id="1_jafqu"]
 [ext_resource type="Script" path="res://scripts/enemy/enemy_1/Enemy1_spotted.gd" id="2_7dlv7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_x6a6b"]
@@ -15,6 +16,7 @@ height = 5.0
 size = Vector3(30, 30, 30)
 
 [node name="Enemy_1" type="CharacterBody3D"]
+script = ExtResource("1_jafqu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_x6a6b")
@@ -26,17 +28,18 @@ shape = SubResource("CapsuleShape3D_hu0t6")
 path_height_offset = 0.15
 
 [node name="state machine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("1_5q2yf")]
-initial_state = NodePath("Enemy1_Walk")
+initial_state = NodePath("Enemy1_Everything")
 
-[node name="Enemy1_Walk" type="Node" parent="state machine" node_paths=PackedStringArray("nav_agent", "enemy")]
+[node name="Enemy1_Everything" type="Node" parent="state machine" node_paths=PackedStringArray("enemy")]
 script = ExtResource("2_7dlv7")
-nav_agent = NodePath("../../NavigationAgent3D")
 enemy = NodePath("../..")
 
 [node name="Detection" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Detection"]
 shape = SubResource("BoxShape3D_0qdkd")
 
-[connection signal="body_entered" from="Detection" to="state machine/Enemy1_Walk" method="_on_detection_body_entered"]
-[connection signal="body_exited" from="Detection" to="state machine/Enemy1_Walk" method="_on_detection_body_exited"]
+[connection signal="area_entered" from="Detection" to="state machine/Enemy1_Everything" method="_on_detection_area_entered"]
+[connection signal="area_exited" from="Detection" to="state machine/Enemy1_Everything" method="_on_detection_area_exited"]

@@ -2,9 +2,11 @@ extends CharacterBody3D
 
 signal Picture_taken(picture:ImageTexture)
 
+#max look and minimum
 const MIN_LOOK = deg_to_rad(-23)
 const MAX_LOOK = deg_to_rad(50)
 
+#player 3d models
 @onready var head = $Head
 @onready var arms = head.get_node("player_arms")
 @onready var hand_anim = arms.get_node("AnimationPlayer")
@@ -14,18 +16,23 @@ const MAX_LOOK = deg_to_rad(50)
 @onready var zoom_mask = ui.get_node("zoom_in_mask")
 @onready var ui_animation_player = ui.get_node("AnimationPlayer")
 
+#scent
+@onready var scent = preload("res://scenes/Player/scent_trail.tscn")
+
+#mouse movement and camera
 var mouse_sens:float = 0.2
 var zoom_speed:float = 0.25
 var camera_up:bool = false
 var can_take_picture:bool = false
 var film:int = 5
 
+#fov
 var fov = {"Default":90.0,"zoom_in":50.0}
 
 var pictures:Array[ImageTexture] = []
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -80,3 +87,9 @@ func _on_animation_player_animation_finished(anim_name:StringName):
 		get_tree().create_tween().tween_property(zoom_mask,"modulate:a",1,zoom_speed)
 		await get_tree().create_tween().tween_property(cam,"fov",fov["zoom_in"],zoom_speed).finished
 		can_take_picture = true
+
+func _on_scent_maker_timeout():
+	var scent_ins = scent.instantiate()
+	get_parent().remove_child(scent_ins)
+	get_parent().add_child(scent_ins)
+	scent_ins.position = global_position

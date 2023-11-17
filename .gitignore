@@ -6,3 +6,10 @@
 *.ctex
 .godot/
 *.Node
+*.scn
+.godot/editor/recent_dirs
+.godot/.gdignore
+*.Node
+.godot/.gdignore
+.godot/editor/favorites
+*.Node

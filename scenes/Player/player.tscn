@@ -168,6 +168,10 @@ libraries = {
 "": SubResource("AnimationLibrary_45oof")
 }
 
+[node name="scent_maker" type="Timer" parent="."]
+autostart = true
+
 [connection signal="animation_finished" from="Head/player_arms/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="scent_maker" to="." method="_on_scent_maker_timeout"]
 
 [editable path="Head/player_arms"]
