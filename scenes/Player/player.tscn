@@ -9,11 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://cqfrj4wx2kdbw" path="res://scenes/zoom_in_mask.tscn" id="8_hrjhj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5cv2o"]
-transparency = 3
-alpha_hash_scale = 1.0
-alpha_antialiasing_mode = 0
-shading_mode = 2
-albedo_color = Color(1, 1, 1, 0.25098)
+transparency = 4
+shading_mode = 0
+albedo_color = Color(0, 1, 1, 0.25098)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6eu8c"]
 lightmap_size_hint = Vector2i(484, 243)
@@ -64,6 +62,8 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 15
 script = ExtResource("1_ml8nt")
 metadata/_edit_group_ = true
 
@@ -88,7 +88,6 @@ initial_state = NodePath("PlayerWalk")
 script = ExtResource("3_akysf")
 player = NodePath("../..")
 hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
-move_anim_name = "Walk"
 
 [node name="PlayerCrouch" type="Node" parent="state machine" node_paths=PackedStringArray("head", "ray", "crouch_collision", "standing_collision", "player", "hand_anim")]
 script = ExtResource("3_8kuua")
@@ -98,7 +97,6 @@ crouch_collision = NodePath("../../Crouch_collision")
 standing_collision = NodePath("../../Standing_collision")
 player = NodePath("../..")
 hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
-move_anim_name = "CrouchWalk"
 idle_anim_name = "CrouchIdle"
 speed = 1.0
 jump = 3.0
@@ -107,7 +105,8 @@ jump = 3.0
 script = ExtResource("4_1hpus")
 player = NodePath("../..")
 hand_anim = NodePath("../../Head/player_arms/AnimationPlayer")
-move_anim_name = "Run"
+speed = 5.0
+jump = 7.0
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -172,6 +171,7 @@ libraries = {
 autostart = true
 
 [connection signal="animation_finished" from="Head/player_arms/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="ui/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="scent_maker" to="." method="_on_scent_maker_timeout"]
 
 [editable path="Head/player_arms"]

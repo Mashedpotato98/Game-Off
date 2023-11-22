@@ -10,7 +10,7 @@ extends CanvasLayer
 				button.release_focus()
 
 		await RenderingServer.frame_post_draw
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_HIDDEN
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED
 
 @onready var menu = %Menu
 @onready var picture_gallery = %PictureGallery

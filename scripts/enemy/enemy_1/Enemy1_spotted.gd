@@ -1,21 +1,20 @@
 extends state_machine
-class_name Enemy1_Everything
+class_name Enemy1_Everyenemything
 
-var target = null
+const SPEED = 3.0
 
 @export var enemy:CharacterBody3D
 
-var spd:int = 40
-var grav:int = 500
+var target:Node3D = null
+var spd:int = 3
+
+func Enter(args:Array):
+	target = args[0]
+	enemy.spd = SPEED
 
 func Physics_update(_delta:float):
-	if target != null:
-		enemy.position += (target.position - enemy.position) / spd
+	enemy.target_pos = target.global_position
 
-	enemy.move_and_slide()
-
-func _on_detection_area_entered(area):
-	target = area
-
-func _on_detection_area_exited(area):
+func _on_detection_detection_exited() -> void:
+	Transitioned.emit(self,"Enemy1_Search",[target.global_position])
 	target = null

@@ -11,13 +11,25 @@ config_version=5
 [application]
 
 config/name="Game Off"
-run/main_scene="res://scenes/Player/player.tscn"
+run/main_scene="res://scenes/test_level.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+
+[dialogue_manager]
+
+general/wrap_lines=true
 
 [display]
 
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [input]
 
@@ -125,3 +137,20 @@ Picture={
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":5,"axis_value":1.0,"script":null)
 ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Map"
+3d_physics/layer_2="Player"
+3d_physics/layer_3="Mob"
+3d_physics/layer_4="NPC"
+3d_physics/layer_5="Interactable"
+3d_physics/layer_6="Camera Target"
+
+[navigation]
+
+3d/default_cell_height=0.01
+
+[physics]
+
+3d/default_gravity=25.0

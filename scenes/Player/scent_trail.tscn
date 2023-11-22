@@ -3,20 +3,19 @@
 [ext_resource type="Script" path="res://scripts/player/scent_trail.gd" id="1_fyr7s"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5u2wt"]
-size = Vector3(0.3, 0.3, 0.3)
+size = Vector3(10, 10, 10)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2r1i8"]
-size = Vector3(0.3, 0.3, 0.3)
+size = Vector3(10, 10, 10)
 
 [node name="Scent_trail" type="Area3D"]
-transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
-collision_layer = 2
-collision_mask = 2
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_fyr7s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_5u2wt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+cast_shadow = 3
 mesh = SubResource("BoxMesh_2r1i8")

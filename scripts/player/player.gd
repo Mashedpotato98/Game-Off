@@ -27,12 +27,12 @@ var can_take_picture:bool = false
 var film:int = 5
 
 #fov
-var fov = {"Default":90.0,"zoom_in":50.0}
+var fov = {"Default":75.0,"zoom_in":50.0}
 
 var pictures:Array[ImageTexture] = []
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -73,9 +73,11 @@ func take_picture():
 	image.adjust_bcs(1,1,0)
 	image.shrink_x2()
 	# It would be cleaner to split this up into multiple lines, but long lines are fun, right? ;)
+	@warning_ignore("integer_division")
 	image = ImageTexture.create_from_image(image.get_region(Rect2i(Vector2i(image.get_width()/4,0),Vector2i(image.get_height(),image.get_height()))))
 	pictures.append(image)
 
+	can_take_picture = false
 	zoom_mask.show()
 	ui_animation_player.play("Flash")
 
@@ -87,9 +89,12 @@ func _on_animation_player_animation_finished(anim_name:StringName):
 		get_tree().create_tween().tween_property(zoom_mask,"modulate:a",1,zoom_speed)
 		await get_tree().create_tween().tween_property(cam,"fov",fov["zoom_in"],zoom_speed).finished
 		can_take_picture = true
+	elif anim_name == "Flash" and camera_up:
+		can_take_picture = true
 
 func _on_scent_maker_timeout():
-	var scent_ins = scent.instantiate()
-	get_parent().remove_child(scent_ins)
-	get_parent().add_child(scent_ins)
-	scent_ins.position = global_position
+	pass
+#	var scent_ins = scent.instantiate()
+#	#get_parent().remove_child(scent_ins) ?
+#	get_parent().add_child(scent_ins)
+#	scent_ins.position = global_position

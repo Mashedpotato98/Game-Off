@@ -1,7 +1,6 @@
 extends PlayerMovement
 class_name PlayerCrouch
 
-
 @export var head:Node3D
 @export var ray:RayCast3D
 
@@ -12,7 +11,7 @@ var crouch_lerp = 10.0
 @export var crouch_collision:CollisionShape3D
 @export var standing_collision:CollisionShape3D
 
-func Enter():
+func Enter(_args:Array):
 	# Use set_defered() to make it physics safe
 	crouch_collision.set_deferred("disabled",false)
 	standing_collision.set_deferred("disabled",true)
@@ -26,11 +25,11 @@ func handle_transitions():
 	if ray.is_colliding() == false:
 		if not Input.is_action_pressed("Crouch"):
 			get_up()
-			Transitioned.emit(self,"PlayerWalk")
+			Transitioned.emit(self,"PlayerWalk",[])
 
 		if Input.is_action_just_pressed("Sprint"):
 			get_up()
-			Transitioned.emit(self,"PlayerSprint")
+			Transitioned.emit(self,"PlayerSprint",[])
 
 func get_up():
 	var get_up_time:float = 0.1

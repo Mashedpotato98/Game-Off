@@ -12,7 +12,7 @@ class_name PlayerMovement
 @export var jump:float = 5
 
 var lerp_speed:int = 10
-var gravity:int = 25
+var gravity:float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var dead_zone:float = 0.1
 
 var direction = Vector3.ZERO
@@ -50,4 +50,6 @@ func animate(input_dir:Vector2):
 	if hand_anim.is_playing() and hand_anim.current_animation.begins_with("Camera"):
 		return
 
-	hand_anim.play(move_anim_name if input_dir else idle_anim_name, 0.5)
+	var anim = idle_anim_name#move_anim_name if input_dir else idle_anim_name
+	if hand_anim.has_animation(anim):
+		hand_anim.play(anim, 0.5)
